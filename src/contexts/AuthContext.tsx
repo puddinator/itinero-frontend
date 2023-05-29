@@ -1,8 +1,8 @@
 import { createContext } from "react";
 
 interface IAuthContext {
+  isLoadingAuth: boolean;
   isLoggedIn: boolean;
-  isLoading: boolean;
   authToken?: string | null;
   signIn: (data: any) => void;
   signOut: () => void;
@@ -10,8 +10,8 @@ interface IAuthContext {
 }
 
 export const AuthContext = createContext<IAuthContext>({
+  isLoadingAuth: true,
   isLoggedIn: false,
-  isLoading: true,
   authToken: null,
   signIn: (data: any) => {},
   signOut: () => {},

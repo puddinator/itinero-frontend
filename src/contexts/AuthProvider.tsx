@@ -3,8 +3,8 @@ import { ReactNode, useEffect, useMemo, useReducer } from "react";
 import { AuthContext } from "./AuthContext";
 
 interface IState {
+  isLoadingAuth: boolean;
   isLoggedIn: boolean;
-  isLoading: boolean;
   authToken?: string | null;
 }
 
@@ -18,8 +18,8 @@ const reducer = (state: IState, action: IAction) => {
     case "RESTORE_TOKEN":
       return {
         ...state,
+        isLoadingAuth: false,
         authToken: action.authToken,
-        isLoading: false,
       };
     case "SIGN_IN":
       return {
@@ -41,7 +41,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
 
   const [state, dispatch] = useReducer(reducer, {
     isLoggedIn: false,
-    isLoading: true,
+    isLoadingAuth: true,
     authToken: null,
   });
 
@@ -62,19 +62,19 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     bootstrapAsync();
   }, []);
 
-  interface iSignInProps {
+  interface ISignInProps {
     username: string;
     password: string;
   }
 
-  interface iSignUpProps extends iSignInProps {
+  interface ISignUpProps extends ISignInProps {
     email: string;
     image?: string;
   }
 
   const actions = useMemo(
     () => ({
-      signIn: async (data: iSignInProps) => {
+      signIn: async (data: ISignInProps) => {
         // Send username, password to server and get a token, also handle errors if sign in failed
         let authToken = "dummy-auth-token";
         dispatch({ type: "SIGN_IN", authToken });
@@ -88,7 +88,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
         // Set the token in SecureStore
         await deleteItemAsync("authToken");
       },
-      signUp: async (data: iSignUpProps) => {
+      signUp: async (data: ISignUpProps) => {
         // Send sign up data to server and get a token, also handle errors if sign up failed
         let authToken = "dummy-auth-token";
         dispatch({ type: "SIGN_IN", authToken });
