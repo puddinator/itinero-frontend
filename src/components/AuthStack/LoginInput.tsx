@@ -1,7 +1,9 @@
 import { MaterialIcons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import { HStack, Icon, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
+import { AuthStackNavigationProps } from "../../screens/AuthStack";
 
 export const UsernameInput = (props: {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
@@ -22,10 +24,13 @@ export const UsernameInput = (props: {
   );
 };
 
-export const PasswordInput = (props: {
+interface IProps {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
-}) => {
-  const { setPassword } = props;
+  placeholder?: string;
+}
+
+export const PasswordInput = (props: IProps) => {
+  const { setPassword, placeholder = "Password" } = props;
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -46,7 +51,7 @@ export const PasswordInput = (props: {
           />
         </Pressable>
       }
-      placeholder="Password"
+      placeholder={placeholder}
       placeholderTextColor="grey"
       onChangeText={setPassword}
     />
@@ -54,12 +59,14 @@ export const PasswordInput = (props: {
 };
 
 export const LoginFooter = () => {
+  const navigation = useNavigation<AuthStackNavigationProps>();
+
   return (
     <HStack marginTop="auto" marginBottom={10}>
       <Text style={{ fontSize: 15, fontWeight: "300" }}>
         Don't have an account?{" "}
       </Text>
-      <TouchableOpacity>
+      <TouchableOpacity onPress={() => navigation.navigate("Sign Up")}>
         <Text style={{ color: "#717FFE", fontSize: 15, fontWeight: "300" }}>
           Sign up
         </Text>

@@ -72,14 +72,14 @@ export const AuthProvider = (props: { children: ReactNode }) => {
           );
           console.log("received response", response.data);
           authToken = response.data.accessToken;
+
+          dispatch({ type: "SIGN_IN", authToken });
+
+          // Set the token in SecureStore
+          await setItemAsync("authToken", authToken);
         } catch (error) {
           console.error(error);
         }
-
-        dispatch({ type: "SIGN_IN", authToken });
-
-        // Set the token in SecureStore
-        await setItemAsync("authToken", authToken);
       },
       signOut: async () => {
         dispatch({ type: "SIGN_OUT" });

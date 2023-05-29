@@ -1,9 +1,20 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import {
+  createNativeStackNavigator,
+  NativeStackNavigationProp,
+} from "@react-navigation/native-stack";
 
 import { LoginScreen } from "./AuthStack/LoginScreen";
 import { SignUpScreen } from "./AuthStack/SignUpScreen";
 
-const Auth = createNativeStackNavigator();
+type AuthStackParamList = {
+  "Sign Up": undefined;
+  Login: undefined;
+};
+
+export type AuthStackNavigationProps =
+  NativeStackNavigationProp<AuthStackParamList>;
+
+const Auth = createNativeStackNavigator<AuthStackParamList>();
 
 export const AuthStack = () => {
   return (
