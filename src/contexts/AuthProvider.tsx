@@ -60,7 +60,6 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     const bootstrapAsync = async () => {
       try {
         const authToken = await getItemAsync("authToken");
-        console.log("is there really authToken?", authToken);
 
         // This will switch to the App screen or Auth screen and this loading
         // screen will be unmounted and thrown away.
@@ -84,6 +83,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
             "https://fine-plum-turtle-toga.cyclic.app/login",
             data
           );
+          console.log("token", response);
           const authToken = response.data.accessToken;
 
           dispatch({ type: "SIGN_IN", authToken });
@@ -114,7 +114,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
           };
 
           const response = await axios(options);
-
+          console.log("token", response);
           const authToken = response.data.accessToken;
 
           dispatch({ type: "SIGN_IN", authToken });

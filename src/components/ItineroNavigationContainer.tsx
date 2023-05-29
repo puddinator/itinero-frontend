@@ -12,8 +12,6 @@ const Stack = createNativeStackNavigator();
 export const ItineroNavigationContainer = () => {
   const { isLoggedIn, isLoadingInitial } = useContext(AuthContext);
 
-  console.log("checking from app.js if logged in: ", isLoggedIn);
-
   const [isAnimationFinish, setIsAnimationFinish] = useState(false);
 
   return (
