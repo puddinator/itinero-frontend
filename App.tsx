@@ -12,6 +12,7 @@ import { AppStack } from "./src/screens/AppStack";
 import { AuthStack } from "./src/screens/AuthStack";
 import { theme } from "./src/theme";
 import { LottieSplash } from "./src/screens/LottieSplash";
+import { GuideScreen } from "./src/screens/AppStack/GuideScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -45,11 +46,12 @@ export default function App() {
                   headerShown: false,
                 }}
               >
-                {isLoggedIn ? (
+                {/* {isLoggedIn ? (
                   <Stack.Screen name="App" component={AppStack} />
                 ) : (
                   <Stack.Screen name="Auth" component={AuthStack} />
-                )}
+                )} */}
+                <Stack.Screen name="Guide" component={GuideScreen} />
               </Stack.Navigator>
             </NavigationContainer>
           </AuthProvider>

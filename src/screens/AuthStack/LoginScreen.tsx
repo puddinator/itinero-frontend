@@ -14,6 +14,7 @@ import {
 } from "native-base";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import axios from 'axios';
 
 export const LoginScreen = () => {
   const [username, setUsername] = useState("");
@@ -22,7 +23,21 @@ export const LoginScreen = () => {
 
   const { signIn } = useContext(AuthContext);
 
-  const logo = require("../../../assets/icon-black.png");
+  const postLogin = async (username: string, password: string) => {
+    axios.post('https://fine-plum-turtle-toga.cyclic.app/login', {
+      username: username,
+      password: password
+    }, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+    }).then((res) => {
+      console.log(res.data.accessToken)
+      return res.data.accessToken;
+    })
+  }
+
+  const logo = require("../../../assets/Icon-black.png");
 
   return (
     <>
@@ -46,6 +61,8 @@ export const LoginScreen = () => {
                 placeholderTextColor="grey"
                 // bg={"rgba(0, 0, 0, 0.3)"}
                 // color="white"
+                value={username}
+                onChangeText = {(text) => setUsername(text)}
               />
               <Input
                 size="2xl"
@@ -66,8 +83,10 @@ export const LoginScreen = () => {
                 }
                 placeholder="Password"
                 placeholderTextColor="grey"
+                value={password}
+                onChangeText = {(text) => setPassword(text)}
               />
-              <Button size="lg" onPress={signIn}>
+              <Button size="lg" onPress={() => {postLogin(username, password)}}>
                 Login
               </Button>
             </Stack>
