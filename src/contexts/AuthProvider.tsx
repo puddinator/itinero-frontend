@@ -1,17 +1,14 @@
-import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
 import { ReactNode, useEffect, useMemo, useReducer } from "react";
+import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
+import axios from "axios";
 import { AuthContext } from "./AuthContext";
 
-interface IState {
-  isLoadingAuth: boolean;
-  isLoggedIn: boolean;
-  authToken?: string | null;
-}
-
-interface IAction {
-  type: "RESTORE_TOKEN" | "SIGN_IN" | "SIGN_OUT";
-  authToken?: string | null;
-}
+import {
+  IAction,
+  ISignInProps,
+  ISignUpProps,
+  IState,
+} from "./props/IAuthProvider";
 
 const reducer = (state: IState, action: IAction) => {
   switch (action.type) {
@@ -19,6 +16,7 @@ const reducer = (state: IState, action: IAction) => {
       return {
         ...state,
         isLoadingAuth: false,
+        isLoggedIn: true,
         authToken: action.authToken,
       };
     case "SIGN_IN":
@@ -62,21 +60,22 @@ export const AuthProvider = (props: { children: ReactNode }) => {
     bootstrapAsync();
   }, []);
 
-  interface ISignInProps {
-    username: string;
-    password: string;
-  }
-
-  interface ISignUpProps extends ISignInProps {
-    email: string;
-    image?: string;
-  }
-
   const actions = useMemo(
     () => ({
       signIn: async (data: ISignInProps) => {
-        // Send username, password to server and get a token, also handle errors if sign in failed
-        let authToken = "dummy-auth-token";
+        // Send username, password to server and get a token, and handle errors if sign in failed
+        let authToken = "";
+        try {
+          const response = await axios.post(
+            "https://fine-plum-turtle-toga.cyclic.app/login",
+            data
+          );
+          console.log("received response", response.data);
+          authToken = response.data.accessToken;
+        } catch (error) {
+          console.error(error);
+        }
+
         dispatch({ type: "SIGN_IN", authToken });
 
         // Set the token in SecureStore

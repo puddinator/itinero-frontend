@@ -14,13 +14,14 @@ import {
 } from "native-base";
 
 import { AuthContext } from "../../contexts/AuthContext";
+import { ISignInProps } from "../../contexts/props/IAuthProvider";
 
 export const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, isLoggedIn } = useContext(AuthContext);
 
   const logo = require("../../../assets/icon-black.png");
 
@@ -46,6 +47,9 @@ export const LoginScreen = () => {
                 placeholderTextColor="grey"
                 // bg={"rgba(0, 0, 0, 0.3)"}
                 // color="white"
+                autoCapitalize="none"
+                autoCorrect={false}
+                onChangeText={setUsername}
               />
               <Input
                 size="2xl"
@@ -66,8 +70,16 @@ export const LoginScreen = () => {
                 }
                 placeholder="Password"
                 placeholderTextColor="grey"
+                onChangeText={setPassword}
               />
-              <Button size="lg" onPress={signIn}>
+              <Button
+                size="lg"
+                onPress={() => {
+                  const data = { username, password } as ISignInProps;
+                  console.log(data);
+                  signIn(data);
+                }}
+              >
                 Login
               </Button>
             </Stack>

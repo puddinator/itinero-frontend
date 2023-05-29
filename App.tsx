@@ -12,15 +12,11 @@ import { AppStack } from "./src/screens/AppStack";
 import { AuthStack } from "./src/screens/AuthStack";
 import { theme } from "./src/theme";
 import { LottieSplash } from "./src/screens/LottieSplash";
+import { ItineroNavigationContainer } from "./src/screens/ItineroNavigationContainer";
 
 SplashScreen.preventAutoHideAsync();
 
-const Stack = createNativeStackNavigator();
-
 export default function App() {
-  const { isLoggedIn } = useContext(AuthContext);
-  const [isAnimationFinish, setIsAnimationFinish] = useState(false);
-
   const { fontsLoaded } = useCustomFonts();
   const onLayoutRootView = useCallback(async () => {
     if (fontsLoaded) {
@@ -35,25 +31,9 @@ export default function App() {
     <NativeBaseProvider theme={theme}>
       {/* <SafeAreaProvider> */}
       <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
-        {!isAnimationFinish ? (
-          <LottieSplash setIsAnimationFinish={setIsAnimationFinish} />
-        ) : (
-          <AuthProvider>
-            <NavigationContainer>
-              <Stack.Navigator
-                screenOptions={{
-                  headerShown: false,
-                }}
-              >
-                {isLoggedIn ? (
-                  <Stack.Screen name="App" component={AppStack} />
-                ) : (
-                  <Stack.Screen name="Auth" component={AuthStack} />
-                )}
-              </Stack.Navigator>
-            </NavigationContainer>
-          </AuthProvider>
-        )}
+        <AuthProvider>
+          <ItineroNavigationContainer />
+        </AuthProvider>
       </View>
       {/* </SafeAreaProvider> */}
     </NativeBaseProvider>
