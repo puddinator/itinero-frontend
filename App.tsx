@@ -11,8 +11,8 @@ import { useCustomFonts } from "./src/hooks/useCustomFonts";
 import { AppStack } from "./src/screens/AppStack";
 import { AuthStack } from "./src/screens/AuthStack";
 import { theme } from "./src/theme";
-import { LottieSplash } from "./src/screens/LottieSplash";
-import { ItineroNavigationContainer } from "./src/screens/ItineroNavigationContainer";
+import { LottieSplash } from "./src/components/LottieSplash";
+import { ItineroNavigationContainer } from "./src/components/ItineroNavigationContainer";
 
 SplashScreen.preventAutoHideAsync();
 

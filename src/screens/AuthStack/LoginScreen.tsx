@@ -41,6 +41,7 @@ export const LoginScreen = () => {
                   const data = { username, password } as ISignInProps;
                   signIn(data);
                 }}
+                style={{ marginTop: 15 }}
               >
                 Login
               </Button>

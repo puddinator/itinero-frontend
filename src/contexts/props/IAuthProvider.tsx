@@ -1,11 +1,12 @@
 export interface IState {
-  isLoadingAuth: boolean;
+  isLoadingInitial: boolean;
+  isLoading: boolean;
   isLoggedIn: boolean;
   authToken?: string | null;
 }
 
 export interface IAction {
-  type: "RESTORE_TOKEN" | "SIGN_IN" | "SIGN_OUT";
+  type: "RESTORED_TOKEN" | "SIGN_IN" | "SIGN_OUT" | "LOADING" | "LOADED";
   authToken?: string | null;
 }
 

@@ -1,7 +1,8 @@
 import { createContext } from "react";
 
 interface IAuthContext {
-  isLoadingAuth: boolean;
+  isLoadingInitial: boolean;
+  isLoading: boolean;
   isLoggedIn: boolean;
   authToken?: string | null;
   signIn: (data: any) => void;
@@ -10,7 +11,8 @@ interface IAuthContext {
 }
 
 export const AuthContext = createContext<IAuthContext>({
-  isLoadingAuth: true,
+  isLoadingInitial: true,
+  isLoading: false,
   isLoggedIn: false,
   authToken: null,
   signIn: (data: any) => {},

@@ -12,13 +12,6 @@ import {
 
 const reducer = (state: IState, action: IAction) => {
   switch (action.type) {
-    case "RESTORE_TOKEN":
-      return {
-        ...state,
-        isLoadingAuth: false,
-        isLoggedIn: true,
-        authToken: action.authToken,
-      };
     case "SIGN_IN":
       return {
         ...state,
@@ -31,6 +24,24 @@ const reducer = (state: IState, action: IAction) => {
         isLoggedIn: false,
         authToken: null,
       };
+    case "RESTORED_TOKEN":
+      return {
+        ...state,
+        isLoadingInitial: false,
+        isLoggedIn: true,
+        authToken: action.authToken,
+      };
+    case "LOADING":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "LOADED":
+      return {
+        ...state,
+        isLoadingInitial: false,
+        isLoading: false,
+      };
   }
 };
 
@@ -38,23 +49,26 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const { children } = props;
 
   const [state, dispatch] = useReducer(reducer, {
+    isLoadingInitial: true,
+    isLoading: false,
     isLoggedIn: false,
-    isLoadingAuth: true,
     authToken: null,
   });
 
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let authToken = null;
       try {
-        authToken = await getItemAsync("authToken");
+        const authToken = await getItemAsync("authToken");
+        console.log("is there really authToken?", authToken);
+
+        // This will switch to the App screen or Auth screen and this loading
+        // screen will be unmounted and thrown away.
+        if (!!authToken) dispatch({ type: "RESTORED_TOKEN", authToken });
+        dispatch({ type: "LOADED" });
       } catch (e) {
         console.log("Error with getting authToken from SecureStore", e);
       }
-      // This will switch to the App screen or Auth screen and this loading
-      // screen will be unmounted and thrown away.
-      dispatch({ type: "RESTORE_TOKEN", authToken });
     };
 
     bootstrapAsync();
@@ -63,15 +77,14 @@ export const AuthProvider = (props: { children: ReactNode }) => {
   const actions = useMemo(
     () => ({
       signIn: async (data: ISignInProps) => {
+        dispatch({ type: "LOADING" });
         // Send username, password to server and get a token, and handle errors if sign in failed
-        let authToken = "";
         try {
           const response = await axios.post(
             "https://fine-plum-turtle-toga.cyclic.app/login",
             data
           );
-          console.log("received response", response.data);
-          authToken = response.data.accessToken;
+          const authToken = response.data.accessToken;
 
           dispatch({ type: "SIGN_IN", authToken });
 
@@ -80,20 +93,47 @@ export const AuthProvider = (props: { children: ReactNode }) => {
         } catch (error) {
           console.error(error);
         }
+        dispatch({ type: "LOADED" });
       },
+
+      signUp: async (data: ISignUpProps) => {
+        dispatch({ type: "LOADING" });
+        // Send sign up data to server and get a token, also handle errors if sign up failed
+        // For some reason bob used urlencoded.. hope this works
+        try {
+          const formattedData = Object.keys(data)
+            // @ts-ignore
+            .map((key) => `${key}=${encodeURIComponent(data[key])}`)
+            .join("&");
+
+          const options = {
+            method: "POST",
+            headers: { "content-type": "application/x-www-form-urlencoded" },
+            formattedData,
+            url: "https://fine-plum-turtle-toga.cyclic.app/register",
+          };
+
+          const response = await axios(options);
+
+          const authToken = response.data.accessToken;
+
+          dispatch({ type: "SIGN_IN", authToken });
+
+          // Set the token in SecureStore
+          await setItemAsync("authToken", authToken);
+        } catch (error) {
+          console.error(error);
+        }
+        dispatch({ type: "LOADED" });
+      },
+
       signOut: async () => {
+        dispatch({ type: "LOADING" });
         dispatch({ type: "SIGN_OUT" });
 
         // Set the token in SecureStore
         await deleteItemAsync("authToken");
-      },
-      signUp: async (data: ISignUpProps) => {
-        // Send sign up data to server and get a token, also handle errors if sign up failed
-        let authToken = "dummy-auth-token";
-        dispatch({ type: "SIGN_IN", authToken });
-
-        // Set the token in SecureStore
-        await setItemAsync("authToken", authToken);
+        dispatch({ type: "LOADED" });
       },
     }),
     []

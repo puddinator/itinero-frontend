@@ -3,20 +3,22 @@ import { AuthContext } from "../contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { AuthStack } from "./AuthStack";
-import { AppStack } from "./AppStack";
+import { AuthStack } from "../screens/AuthStack";
+import { AppStack } from "../screens/AppStack";
 import { LottieSplash } from "./LottieSplash";
 
 const Stack = createNativeStackNavigator();
 
 export const ItineroNavigationContainer = () => {
-  const { isLoggedIn, isLoadingAuth } = useContext(AuthContext);
+  const { isLoggedIn, isLoadingInitial } = useContext(AuthContext);
+
+  console.log("checking from app.js if logged in: ", isLoggedIn);
 
   const [isAnimationFinish, setIsAnimationFinish] = useState(false);
 
   return (
     <>
-      {isLoadingAuth || !isAnimationFinish ? (
+      {isLoadingInitial || !isAnimationFinish ? (
         <LottieSplash setIsAnimationFinish={setIsAnimationFinish} />
       ) : (
         <NavigationContainer>
