@@ -45,31 +45,31 @@ export const theme = extendTheme({
   fontConfig: {
     Lexend: {
       100: {
-        normal: "Lexend-Thin",
+        normal: "Lexend_100Thin",
       },
       200: {
-        normal: "Lexend-ExtraLight",
+        normal: "Lexend_200ExtraLight",
       },
       300: {
-        normal: "Lexend-Light",
+        normal: "Lexend_300Light",
       },
       400: {
-        normal: "Lexend-Regular",
+        normal: "Lexend_400Regular",
       },
       500: {
-        normal: "Lexend-Medium",
+        normal: "Lexend_500Medium",
       },
       600: {
-        normal: "Lexend-SemiBold",
+        normal: "Lexend_600SemiBold",
       },
       700: {
-        normal: "Lexend-Bold",
+        normal: "Lexend_700Bold",
       },
       800: {
-        normal: "Lexend-ExtraBold",
+        normal: "Lexend_800ExtraBold",
       },
       900: {
-        normal: "Lexend-Black",
+        normal: "Lexend_900Black",
       },
     },
   },
