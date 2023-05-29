@@ -1,8 +1,18 @@
+import { useContext, useState } from "react";
+import { Text, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
-import { Button, Icon, Input, Pressable, Stack } from "native-base";
-import { useContext, useState } from "react";
-import { Text } from "react-native";
+import {
+  Box,
+  Button,
+  HStack,
+  Icon,
+  Image,
+  Input,
+  Pressable,
+  Stack,
+} from "native-base";
+
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const LoginScreen = () => {
@@ -12,6 +22,8 @@ export const LoginScreen = () => {
 
   const { signIn } = useContext(AuthContext);
 
+  const logo = require("../../../assets/icon-black.png");
+
   return (
     <>
       <LinearGradient
@@ -19,39 +31,58 @@ export const LoginScreen = () => {
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "center",
+          // justifyContent: "center",
         }}
       >
-        <Stack space={4} w="100%" alignItems="center">
-          <Input
-            // variant="filled"
-            w={{ base: "75%" }}
-            placeholder="Username"
-            // color={"rgba(0, 0, 0, 0.3)"}
-          />
-          <Input
-            w={{ base: "75%" }}
-            type={showPassword ? "text" : "password"}
-            InputRightElement={
-              <Pressable onPress={() => setShowPassword(!showPassword)}>
-                <Icon
-                  as={
-                    <MaterialIcons
-                      name={showPassword ? "visibility" : "visibility-off"}
+        <Box
+          style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        >
+          <Stack space={20} w="100%" maxW="300px" alignItems="center">
+            <Image source={logo} alt="itinero logo" size="xl" />
+            <Stack space={4} w="75%" maxW="300px" alignItems="center">
+              <Input
+                size="2xl"
+                placeholder="Username"
+                placeholderTextColor="grey"
+                // bg={"rgba(0, 0, 0, 0.3)"}
+                // color="white"
+              />
+              <Input
+                size="2xl"
+                type={showPassword ? "text" : "password"}
+                InputRightElement={
+                  <Pressable onPress={() => setShowPassword(!showPassword)}>
+                    <Icon
+                      as={
+                        <MaterialIcons
+                          name={showPassword ? "visibility" : "visibility-off"}
+                        />
+                      }
+                      size={5}
+                      mr="2"
+                      color="grey"
                     />
-                  }
-                  size={5}
-                  mr="2"
-                  color="muted.400"
-                />
-              </Pressable>
-            }
-            placeholder="Password"
-          />
-          <Button>
-            <Text>Login</Text>
-          </Button>
-        </Stack>
+                  </Pressable>
+                }
+                placeholder="Password"
+                placeholderTextColor="grey"
+              />
+              <Button size="lg" onPress={signIn}>
+                Login
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+        <HStack marginTop="auto" marginBottom={10}>
+          <Text style={{ fontSize: 15, fontWeight: "300" }}>
+            Don't have an account?{" "}
+          </Text>
+          <TouchableOpacity>
+            <Text style={{ color: "#717FFE", fontSize: 15, fontWeight: "300" }}>
+              Sign up
+            </Text>
+          </TouchableOpacity>
+        </HStack>
       </LinearGradient>
     </>
   );
