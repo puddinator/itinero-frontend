@@ -1,53 +1,62 @@
-import { useEffect, useMemo, useReducer } from "react";
-import { getItemAsync } from "expo-secure-store";
+import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
+import { ReactNode, useEffect, useMemo, useReducer } from "react";
+import { AuthContext } from "./AuthContext";
 
-export const AuthProvider = () => {
-  const [state, dispatch] = useReducer(
-    (prevState: any, action: { type: any; token?: string | null }) => {
-      switch (action.type) {
-        case "RESTORE_TOKEN":
-          return {
-            ...prevState,
-            authToken: action.token,
-            isLoading: false,
-          };
-        case "SIGN_IN":
-          return {
-            ...prevState,
-            isSignout: false,
-            authToken: action.token,
-          };
-        case "SIGN_OUT":
-          return {
-            ...prevState,
-            isSignout: true,
-            authToken: null,
-          };
-      }
-    },
-    {
-      isLoading: true,
-      isSignout: false,
-      authToken: null,
-    }
-  );
+interface IState {
+  isLoggedIn: boolean;
+  isLoading: boolean;
+  authToken?: string | null;
+}
+
+interface IAction {
+  type: "RESTORE_TOKEN" | "SIGN_IN" | "SIGN_OUT";
+  authToken?: string | null;
+}
+
+const reducer = (state: IState, action: IAction) => {
+  switch (action.type) {
+    case "RESTORE_TOKEN":
+      return {
+        ...state,
+        authToken: action.authToken,
+        isLoading: false,
+      };
+    case "SIGN_IN":
+      return {
+        ...state,
+        isLoggedIn: true,
+        authToken: action.authToken,
+      };
+    case "SIGN_OUT":
+      return {
+        ...state,
+        isLoggedIn: false,
+        authToken: null,
+      };
+  }
+};
+
+export const AuthProvider = (props: { children: ReactNode }) => {
+  const { children } = props;
+
+  const [state, dispatch] = useReducer(reducer, {
+    isLoggedIn: false,
+    isLoading: true,
+    authToken: null,
+  });
 
   useEffect(() => {
     // Fetch the token from storage then navigate to our appropriate place
     const bootstrapAsync = async () => {
-      let authToken;
-
+      let authToken = null;
       try {
         authToken = await getItemAsync("authToken");
       } catch (e) {
-        // Restoring token failed
+        console.log("Error with getting authToken from SecureStore", e);
       }
-
-      // After restoring token, we may need to validate it in production apps
-
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
-      dispatch({ type: "RESTORE_TOKEN", token: authToken });
+      dispatch({ type: "RESTORE_TOKEN", authToken });
     };
 
     bootstrapAsync();
@@ -63,27 +72,36 @@ export const AuthProvider = () => {
     image?: string;
   }
 
-  const authContext = useMemo(
+  const actions = useMemo(
     () => ({
       signIn: async (data: iSignInProps) => {
-        // In a production app, we need to send some data (usually username, password) to server and get a token
-        // We will also need to handle errors if sign in failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+        // Send username, password to server and get a token, also handle errors if sign in failed
+        let authToken = "dummy-auth-token";
+        dispatch({ type: "SIGN_IN", authToken });
 
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+        // Set the token in SecureStore
+        await setItemAsync("authToken", authToken);
       },
-      signOut: () => dispatch({ type: "SIGN_OUT" }),
-      signUp: async (data: iSignInProps) => {
-        // In a production app, we need to send user data to server and get a token
-        // We will also need to handle errors if sign up failed
-        // After getting token, we need to persist the token using `SecureStore`
-        // In the example, we'll use a dummy token
+      signOut: async () => {
+        dispatch({ type: "SIGN_OUT" });
 
-        dispatch({ type: "SIGN_IN", token: "dummy-auth-token" });
+        // Set the token in SecureStore
+        await deleteItemAsync("authToken");
+      },
+      signUp: async (data: iSignUpProps) => {
+        // Send sign up data to server and get a token, also handle errors if sign up failed
+        let authToken = "dummy-auth-token";
+        dispatch({ type: "SIGN_IN", authToken });
+
+        // Set the token in SecureStore
+        await setItemAsync("authToken", authToken);
       },
     }),
     []
   );
-  return { authContext, state };
+  return (
+    <AuthContext.Provider value={{ ...state, ...actions }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
