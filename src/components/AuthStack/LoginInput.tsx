@@ -3,7 +3,7 @@ import { useNavigation } from "@react-navigation/native";
 import { HStack, Icon, Input, Pressable, Text } from "native-base";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { AuthStackNavigationProps } from "../../routes/AuthStack";
+import { AuthStackNavigationProps } from "../../routes/AuthRoutes";
 
 export const UsernameInput = (props: {
   setUsername: React.Dispatch<React.SetStateAction<string>>;
