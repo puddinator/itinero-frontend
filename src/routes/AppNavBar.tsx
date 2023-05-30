@@ -18,6 +18,16 @@ export const AppNavBar = () => {
     >
       {/* For the 4 different navigation tabs */}
       <App.Screen
+        name="Guides"
+        component={GuidesScreen}
+        options={{
+          tabBarLabel: "Guides",
+          tabBarIcon: ({ color }) => (
+            <MaterialCommunityIcons name="navigation" color={color} size={26} />
+          ),
+        }}
+      />
+      <App.Screen
         name="Search"
         component={SearchScreen}
         options={{
@@ -28,16 +38,6 @@ export const AppNavBar = () => {
               color={color}
               size={26}
             />
-          ),
-        }}
-      />
-      <App.Screen
-        name="Guides"
-        component={GuidesScreen}
-        options={{
-          tabBarLabel: "Guides",
-          tabBarIcon: ({ color }) => (
-            <MaterialCommunityIcons name="navigation" color={color} size={26} />
           ),
         }}
       />
