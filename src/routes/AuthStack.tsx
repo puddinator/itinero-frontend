@@ -3,8 +3,8 @@ import {
   NativeStackNavigationProp,
 } from "@react-navigation/native-stack";
 
-import { LoginScreen } from "./AuthStack/LoginScreen";
-import { SignUpScreen } from "./AuthStack/SignUpScreen";
+import { LoginScreen } from "./../screens/AuthStack/LoginScreen";
+import { SignUpScreen } from "./../screens/AuthStack/SignUpScreen";
 
 type AuthStackParamList = {
   "Sign Up": undefined;

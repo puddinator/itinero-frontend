@@ -1,10 +1,10 @@
-import { useContext, useState } from "react";
-import { AuthContext } from "../contexts/AuthContext";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useContext, useState } from "react";
+import { AuthContext } from "../contexts/AuthContext";
 
-import { AuthStack } from "../screens/AuthStack";
-import { AppStack } from "../screens/AppStack";
+import { AppNavBar } from "../routes/AppNavBar";
+import { AuthStack } from "../routes/AuthStack";
 import { LottieSplash } from "./LottieSplash";
 
 const Stack = createNativeStackNavigator();
@@ -26,7 +26,7 @@ export const ItineroNavigationContainer = () => {
             }}
           >
             {isLoggedIn ? (
-              <Stack.Screen name="App" component={AppStack} />
+              <Stack.Screen name="App" component={AppNavBar} />
             ) : (
               <Stack.Screen name="Auth" component={AuthStack} />
             )}

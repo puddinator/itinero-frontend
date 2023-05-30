@@ -1,9 +1,9 @@
 import { View, Text } from "react-native";
 
-export const FavouritesScreen = () => {
+export const PlanScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-      <Text>Favourites Screen</Text>
+      <Text>Plan Screen</Text>
     </View>
   );
 };

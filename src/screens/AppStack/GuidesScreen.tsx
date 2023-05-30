@@ -4,12 +4,12 @@ import React, { Component, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import { AppStackNavigationProps } from "../../screens/AppStack";
-import { AuthContext } from "../../contexts/AuthContext"; 
+import { AuthContext } from "../../contexts/AuthContext";
 
 export const GuidesScreen = () => {
   const navigation = useNavigation<AppStackNavigationProps>();
   const { signOut } = useContext(AuthContext);
-  
+
   return (
     <>
       <LinearGradient
@@ -30,7 +30,10 @@ export const GuidesScreen = () => {
           <View style={styles.listBackground}>
             <Text style={styles.featuredGuides}>Featured Guides</Text>
             <View style={styles.guide}>
-              <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Details")}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => navigation.navigate("Details")}
+              >
                 <Image
                   source={require("../../../assets/hotel.jpg")}
                   resizeMode="cover"
@@ -54,79 +57,79 @@ export const GuidesScreen = () => {
 
 const styles = StyleSheet.create({
   group: {
-    width: '100%',
+    width: "100%",
     height: 18,
     marginTop: 60,
-    marginLeft: 10
+    marginLeft: 10,
   },
   displaying2: {
-    color: "rgba(18,18,18,1)"
+    color: "rgba(18,18,18,1)",
   },
   singapore: {
-    color: "rgba(162,210,255,1)"
+    color: "rgba(162,210,255,1)",
   },
   signOut: {
-    marginLeft: 300
+    marginLeft: 300,
   },
-  bottom:{
-    width: '100%',
-    height: '100%',
+  bottom: {
+    width: "100%",
+    height: "100%",
     flex: 1,
-    justifyContent: 'flex-end',
+    justifyContent: "flex-end",
   },
   listBackground: {
-    width: '100%',
-    height: '94%',
+    width: "100%",
+    height: "94%",
     backgroundColor: "rgba(230,230,230,0.5)",
     borderRadius: 20,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
-    marginTop: 45
+    marginTop: 45,
   },
   featuredGuides: {
     color: "#121212",
     fontSize: 16,
     marginTop: 23,
-    marginLeft: 10
+    marginLeft: 10,
   },
   guide: {
     width: 259,
     height: 195,
     marginTop: 14,
-    marginLeft: 10
+    marginLeft: 10,
   },
   button: {
     width: 259,
     height: 254,
     backgroundColor: "rgba(230,230,230,1)",
-    borderRadius: 15
+    borderRadius: 15,
   },
   image: {
     width: 259,
     height: 195,
-    borderRadius: 15
+    borderRadius: 15,
   },
   quintessential: {
     color: "#121212",
     marginTop: 7,
-    marginLeft: 3
+    marginLeft: 3,
   },
   byUser1: {
     color: "#121212",
-    fontSize: 12
+    fontSize: 12,
   },
   loremIpsum: {
     color: "#121212",
     marginLeft: 169,
-    marginTop: 5
+    marginTop: 5,
   },
   byUser1Row: {
     height: 22,
     flexDirection: "row",
     marginTop: 5,
     marginLeft: 3,
-    marginRight: 7
-  }
+    marginRight: 7,
+  },
 });
