@@ -1,6 +1,8 @@
 import { ReactNode, useEffect, useMemo, useReducer } from "react";
 import { deleteItemAsync, getItemAsync, setItemAsync } from "expo-secure-store";
 import axios from "axios";
+import Toast from "react-native-toast-message";
+
 import { AuthContext } from "./AuthContext";
 
 import {
@@ -9,6 +11,14 @@ import {
   ISignUpProps,
   IState,
 } from "./props/IAuthProvider";
+
+const showToast = () => {
+  Toast.show({
+    type: "error",
+    text1: "Something went wrong...",
+    text2: "Check your inputs.",
+  });
+};
 
 const reducer = (state: IState, action: IAction) => {
   switch (action.type) {
@@ -67,6 +77,7 @@ export const AuthProvider = (props: { children: ReactNode }) => {
         dispatch({ type: "LOADED" });
       } catch (e) {
         console.log("Error with getting authToken from SecureStore", e);
+        showToast();
       }
     };
 
@@ -86,12 +97,14 @@ export const AuthProvider = (props: { children: ReactNode }) => {
           console.log("token", response);
           const authToken = response.data.accessToken;
 
-          dispatch({ type: "SIGN_IN", authToken });
+          if (!!authToken) dispatch({ type: "SIGN_IN", authToken });
+          else showToast();
 
           // Set the token in SecureStore
           await setItemAsync("authToken", authToken);
         } catch (error) {
           console.error(error);
+          showToast();
         }
         dispatch({ type: "LOADED" });
       },
@@ -117,12 +130,14 @@ export const AuthProvider = (props: { children: ReactNode }) => {
           console.log("token", response);
           const authToken = response.data.accessToken;
 
-          dispatch({ type: "SIGN_IN", authToken });
+          if (!!authToken) dispatch({ type: "SIGN_IN", authToken });
+          else showToast();
 
           // Set the token in SecureStore
           await setItemAsync("authToken", authToken);
         } catch (error) {
           console.error(error);
+          showToast();
         }
         dispatch({ type: "LOADED" });
       },
