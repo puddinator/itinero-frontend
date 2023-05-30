@@ -1,6 +1,7 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Box, Button, Image, Stack } from "native-base";
 import { useContext, useState } from "react";
+import Spinner from "react-native-loading-spinner-overlay";
 
 import {
   LoginFooter,
@@ -14,9 +15,9 @@ export const LoginScreen = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const { signIn } = useContext(AuthContext);
+  const { signIn, isLoading } = useContext(AuthContext);
 
-  const logo = require("../../../assets/Icon-black.png");
+  const logo = require("../../../assets/icon-black.png");
 
   return (
     <>
@@ -50,6 +51,7 @@ export const LoginScreen = () => {
         </Box>
         <LoginFooter />
       </LinearGradient>
+      <Spinner visible={isLoading} />
     </>
   );
 };

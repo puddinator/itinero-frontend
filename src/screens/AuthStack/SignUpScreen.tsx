@@ -1,9 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { Button, Image, Stack } from "native-base";
 import { useContext, useState } from "react";
-
 import { useNavigation } from "@react-navigation/native";
 import { View } from "react-native";
+import Spinner from "react-native-loading-spinner-overlay";
+
 import {
   PasswordInput,
   UsernameInput,
@@ -17,9 +18,9 @@ export const SignUpScreen = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const { signUp } = useContext(AuthContext);
+  const { signUp, isLoading } = useContext(AuthContext);
 
-  const logo = require("../../../assets/Icon-black.png");
+  const logo = require("../../../assets/icon-black.png");
   const navigation = useNavigation();
   return (
     <>
@@ -60,6 +61,8 @@ export const SignUpScreen = () => {
       <View style={{ position: "absolute" }}>
         <BackButton />
       </View>
+
+      <Spinner visible={isLoading} />
     </>
   );
 };
