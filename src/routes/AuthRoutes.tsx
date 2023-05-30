@@ -16,7 +16,7 @@ export type AuthStackNavigationProps =
 
 const Auth = createNativeStackNavigator<AuthStackParamList>();
 
-export const AuthStack = () => {
+export const AuthRoutes = () => {
   return (
     <Auth.Navigator
       initialRouteName="Login"

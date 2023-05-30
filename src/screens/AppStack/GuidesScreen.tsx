@@ -3,11 +3,12 @@ import { Button } from "native-base";
 import React, { Component, useContext } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-import { AppStackNavigationProps } from "../../screens/AppStack";
+// import { AppStackNavigationProps } from "../../screens/AppStack";
+import { GuidesRoutes } from "../../routes/GuidesRoutes";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export const GuidesScreen = () => {
-  const navigation = useNavigation<AppStackNavigationProps>();
+  const navigation = useNavigation();
   const { signOut } = useContext(AuthContext);
 
   return (
@@ -32,6 +33,7 @@ export const GuidesScreen = () => {
             <View style={styles.guide}>
               <TouchableOpacity
                 style={styles.button}
+                // @ts-ignore
                 onPress={() => navigation.navigate("Details")}
               >
                 <Image

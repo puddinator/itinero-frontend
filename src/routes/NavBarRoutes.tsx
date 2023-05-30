@@ -6,10 +6,11 @@ import { GuidesScreen } from "../screens/AppStack/GuidesScreen";
 import { MeScreen } from "../screens/AppStack/MeScreen";
 import { PlanScreen } from "../screens/AppStack/PlanScreen";
 import { SearchScreen } from "../screens/AppStack/SearchScreen";
+import { GuidesRoutes } from "./GuidesRoutes";
 
 const App = createMaterialBottomTabNavigator();
 
-export const AppNavBar = () => {
+export const NavBarRoutes = () => {
   return (
     <App.Navigator
       initialRouteName="Guides"
@@ -19,7 +20,7 @@ export const AppNavBar = () => {
       {/* For the 4 different navigation tabs */}
       <App.Screen
         name="Guides"
-        component={GuidesScreen}
+        component={GuidesRoutes}
         options={{
           tabBarLabel: "Guides",
           tabBarIcon: ({ color }) => (

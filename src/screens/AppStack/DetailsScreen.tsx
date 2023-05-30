@@ -3,11 +3,13 @@ import { View, Text, StyleSheet } from "react-native";
 import MapView, {Marker} from "react-native-maps";
 import MapViewDirections from "react-native-maps-directions";
 import axios from "axios";
+import Spinner from "react-native-loading-spinner-overlay";
 
 export const DetailsScreen = () => {
   let locationArray:{coordinates: {latitude: number, longitude: number}, id: string}[] = [];
 
   const [locations, setLocations] = useState<any[]>([]);
+  const [description, setDescription] = useState(String)
   const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -22,6 +24,7 @@ export const DetailsScreen = () => {
         locationArray.push({coordinates: {latitude: location.coordinates[0], longitude: location.coordinates[1]}, id: location._id})
       }
       setLocations(locationArray);
+      setDescription(res.data.description);
       setLoading(false);
     })
   }  
@@ -29,7 +32,7 @@ export const DetailsScreen = () => {
   if (isLoading){
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Loading</Text>
+        <Spinner visible={isLoading} />
       </View>
     )
   }
@@ -65,6 +68,8 @@ export const DetailsScreen = () => {
           }}
         />
       </MapView>
+      
+      <Text style={styles.description}>{description}</Text>
     </View>
   );
 };
@@ -73,4 +78,20 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
+  // bottom: {
+  //   width: "100%",
+  //   height: "100%",
+  //   flex: 1,
+  //   justifyContent: "flex-end",
+  // },
+  // card: {
+  //   width: "100%",
+  //   height: "30%",
+  //   backgroundColor: "rgba(230,230,230,1)",
+  //   borderTopLeftRadius: 20,
+  //   borderTopRightRadius: 20,
+  // },
+  description: {
+    marginTop: 600,
+  }
 })

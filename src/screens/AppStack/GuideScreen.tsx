@@ -29,7 +29,7 @@ export const GuideScreen = () => {
   if (isLoading){
     return (
       <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-        <Text>Loading</Text>
+        <Text>Test</Text>
       </View>
     )
   }
