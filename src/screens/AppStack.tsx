@@ -1,9 +1,20 @@
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createNativeStackNavigator, NativeStackNavigationProp} from "@react-navigation/native-stack";
 import { SearchScreen } from "./AppStack/SearchScreen";
 import { GuidesScreen } from "./AppStack/GuidesScreen";
 import { FavouritesScreen } from "./AppStack/FavouritesScreen";
 import { MeScreen } from "./AppStack/MeScreen";
 import { DetailsScreen } from "./AppStack/DetailsScreen";
+
+type AppStackParamList = {
+  Search: undefined;
+  Guides: undefined;
+  Favourites: undefined;
+  Me: undefined;
+  Details: undefined;
+};
+
+export type AppStackNavigationProps =
+  NativeStackNavigationProp<AppStackParamList>;
 
 const App = createNativeStackNavigator();
 
