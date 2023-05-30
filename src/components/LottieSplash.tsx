@@ -18,7 +18,6 @@ export const LottieSplash = (props: {
         style={{
           width: 100,
           height: 100,
-          // backgroundColor: "#eee",
         }}
         source={require("./../../assets/lottie/splashscreen.json")}
         onAnimationFinish={() => {
