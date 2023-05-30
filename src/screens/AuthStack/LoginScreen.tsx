@@ -9,7 +9,7 @@ import {
   UsernameInput,
 } from "../../components/AuthStack/LoginInput";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ISignInProps } from "../../contexts/props/IAuthProvider";
+import { ISignInProps } from "../../contexts/interfaces/IAuthProvider";
 
 export const LoginScreen = () => {
   const [username, setUsername] = useState("");

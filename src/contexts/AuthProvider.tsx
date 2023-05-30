@@ -10,7 +10,7 @@ import {
   ISignInProps,
   ISignUpProps,
   IState,
-} from "./props/IAuthProvider";
+} from "./interfaces/IAuthProvider";
 
 const showToast = () => {
   Toast.show({

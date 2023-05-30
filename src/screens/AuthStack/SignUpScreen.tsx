@@ -11,7 +11,7 @@ import {
 } from "../../components/AuthStack/LoginInput";
 import { BackButton } from "../../components/BackButton";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ISignInProps } from "../../contexts/props/IAuthProvider";
+import { ISignInProps } from "../../contexts/interfaces/IAuthProvider";
 
 export const SignUpScreen = () => {
   const [username, setUsername] = useState("");
