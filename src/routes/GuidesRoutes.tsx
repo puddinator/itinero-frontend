@@ -8,12 +8,15 @@ import { PlanScreen } from "../screens/AppStack/PlanScreen";
 import { SearchScreen } from "../screens/AppStack/SearchScreen";
 import { DetailsScreen } from "../screens/AppStack/DetailsScreen";
 
-const Guides = createNativeStackNavigator()
+const Guides = createNativeStackNavigator();
 
 export const GuidesRoutes = () => {
   return (
     <Guides.Navigator
       initialRouteName="Guides"
+      screenOptions={{
+        headerShown: false,
+      }}
     >
       <Guides.Screen name="Guides" component={GuidesScreen} />
       <Guides.Screen name="Details" component={DetailsScreen} />
